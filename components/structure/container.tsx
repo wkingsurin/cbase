@@ -8,7 +8,7 @@ export default function Container({
   children,
 }: ContainerProps) {
   return (
-    <div className={`min-w-[calc(100dvh-140px-16px-16px)] ${className}`}>
+    <div className={`w-full min-w-0 ${className}`}>
       {children}
     </div>
   );
