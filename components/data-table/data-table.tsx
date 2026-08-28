@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ColumnSort from "./column-sort";
 import {
   Table,
   TableBody,
@@ -10,13 +9,22 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { DataTableProps } from "./types";
+import {
+  ColumnFilters,
+  ColumnWidths,
+  DataTableProps,
+  SortState,
+} from "./types";
 import DataTableResizer from "./data-table-resizer";
 import Cell from "./cell";
-
-type ColumnWidths = Record<string, number>;
+import ColumnActions from "./column-actions";
 
 export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
+  const [sort, setSort] = useState<SortState>({
+    columnId: null,
+    direction: null,
+  });
+  const [columnFilters, setColumnFilters] = useState<ColumnFilters>({});
   const [columnWidths, setColumnWidths] = useState<ColumnWidths>(() =>
     Object.fromEntries(
       columns.map((column) => {
@@ -66,6 +74,31 @@ export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
     window.addEventListener("pointerup", handlePointerUp);
   };
 
+  const sortedData = [...data].sort((a, b) => {
+    if (!sort) return 0;
+
+    const column = columns.find((column) => column.id === sort.columnId);
+
+    if (!column?.accessorKey) return 0;
+
+    const aValue = a[column.accessorKey];
+    const bValue = b[column.accessorKey];
+
+    if (aValue == null || bValue == null) return 0;
+    if (aValue == null) return 1;
+    if (bValue == null) return -1;
+
+    if (aValue < bValue) {
+      return sort.direction === "asc" ? -1 : 1;
+    }
+
+    if (bValue < aValue) {
+      return sort.direction === "asc" ? 1 : -1;
+    }
+
+    return 0;
+  });
+
   return (
     <div className="group/table relative min-w-0 overflow-x-auto">
       <Table className="table-fixed whitespace-nowrap">
@@ -85,8 +118,32 @@ export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
             {columns.map((column) => (
               <TableHead key={column.id} className="relative min-w-0">
                 <div className="flex items-center justify-between gap-3 w-full">
-                  <span className="min-w-0 truncate text-white/75">{column.header}</span>
-                  <ColumnSort />
+                  <span className="min-w-0 truncate text-white/75">
+                    {column.header}
+                  </span>
+                  <ColumnActions
+                    column={column}
+                    selectedFilters={columnFilters[column.id] ?? []}
+                    onFilterChange={(value, checked) => {
+                      setColumnFilters((prev) => {
+                        const current = prev[column.id] ?? [];
+
+                        return {
+                          ...prev,
+                          [column.id]: checked
+                            ? [...current, value]
+                            : current.filter((item) => item !== value),
+                        };
+                      });
+                    }}
+                    sortDirection={
+                      sort?.columnId === column.id ? sort.direction : null
+                    }
+                    onSort={(direction) => {
+                      setSort({ columnId: column.id, direction });
+                      console.log(`[sort]:`, sort);
+                    }}
+                  />
                 </div>
 
                 <DataTableResizer
@@ -98,7 +155,7 @@ export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
         </TableHeader>
 
         <TableBody>
-          {data.map((row, rowIndex) => (
+          {sortedData.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
               {columns.map((column) => {
                 const rawValue = column.accessorKey

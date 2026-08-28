@@ -2,6 +2,7 @@ import { DataTableColumn } from "@/components/data-table/types";
 import { IClient } from "../types";
 import StatusCell from "../components/status-cell";
 import TagCell from "../components/tag-cell";
+import TableCheckbox from "@/components/data-table/table-checkbox";
 
 export const CLIENTS_DATA: IClient[] = [
   {
@@ -78,6 +79,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     initialWidth: 90,
     minWidth: 90,
     maxWidth: 160,
+    render: (client) => <TableCheckbox />,
   },
   {
     id: "id",
@@ -96,6 +98,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 160,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
     id: "tg",
@@ -105,6 +108,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 140,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
     id: "vk",
@@ -114,6 +118,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 120,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
     id: "site",
@@ -123,6 +128,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 120,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
     id: "phone",
@@ -132,6 +138,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 140,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
     id: "comment",
@@ -141,6 +148,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 150,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
     id: "status",
@@ -149,6 +157,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     initialWidth: 120,
     minWidth: 90,
     maxWidth: 300,
+
     render: (client) => (
       <StatusCell
         status={client.status}
@@ -157,6 +166,16 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
         }}
       />
     ),
+
+    filter: {
+      type: "checkbox",
+      options: [
+        { label: "In work", value: "IN_WORK" },
+        { label: "Await", value: "AWAIT" },
+        { label: "Closed", value: "CLOSED" },
+        { label: "In payment", value: "IN_PAYMENT" },
+      ],
+    },
   },
   {
     id: "tag",
@@ -165,6 +184,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     initialWidth: 120,
     minWidth: 90,
     maxWidth: 300,
+
     render: (client) => (
       <TagCell
         tag={client.tag}
@@ -173,6 +193,16 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
         }}
       />
     ),
+
+    filter: {
+      type: "checkbox",
+      options: [
+        { label: "Positive", value: "POSITIVE" },
+        { label: "Neutral", value: "NEUTRAL" },
+        { label: "Negative", value: "NEGATIVE" },
+        { label: "Ignor", value: "IGNOR" },
+      ],
+    },
   },
   {
     id: "createdAt",
@@ -182,6 +212,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 150,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "text" },
   },
   {
     id: "updatedAt",
@@ -191,5 +222,6 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 150,
     maxWidth: 300,
     copyable: true,
+    filter: { type: "text" },
   },
 ];
