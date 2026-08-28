@@ -23,19 +23,20 @@ export default function StatusCell({ status, onChange }: StatusCellProps) {
         <ClientStatus status={status} />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="start" className="flex flex-col gap-1">
         {Object.keys(CLIENT_STATUSES).map((statusKey) => {
           const nextStatus = statusKey as StatusType;
 
           return (
             <DropdownMenuItem
               key={nextStatus}
+              className="p-0 not-data-[variant=destructive]:focus:**:text-none"
               onClick={(event) => {
                 event.stopPropagation();
                 onChange(nextStatus);
               }}
             >
-              <ClientStatus status={nextStatus} />
+              <ClientStatus status={nextStatus} className="rounded-md h-8!" />
             </DropdownMenuItem>
           );
         })}

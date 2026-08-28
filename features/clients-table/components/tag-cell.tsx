@@ -23,19 +23,20 @@ export default function TagCell({ tag, onChange }: TagCellProps) {
         <ClientTag tag={tag} />
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="start" className="flex flex-col gap-1">
         {Object.keys(CLIENT_TAGS).map((tagKey) => {
           const nextTag = tagKey as TagType;
 
           return (
             <DropdownMenuItem
               key={nextTag}
+              className="p-0 not-data-[variant=destructive]:focus:**:text-none"
               onClick={(event) => {
                 event.stopPropagation();
                 onChange(nextTag);
               }}
             >
-              <ClientTag tag={nextTag} />
+              <ClientTag tag={nextTag} className="rounded-md h-8!" />
             </DropdownMenuItem>
           );
         })}
