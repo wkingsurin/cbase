@@ -2,7 +2,6 @@ import { DataTableColumn } from "@/components/data-table/types";
 import { IClient } from "../types";
 import StatusCell from "../components/status-cell";
 import TagCell from "../components/tag-cell";
-import TableCheckbox from "@/components/data-table/table-checkbox";
 
 export const CLIENTS_DATA: IClient[] = [
   {
@@ -73,14 +72,6 @@ export const CLIENTS_DATA: IClient[] = [
 ];
 
 export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
-  {
-    id: "all",
-    header: "All",
-    initialWidth: 90,
-    minWidth: 90,
-    maxWidth: 160,
-    render: (client) => <TableCheckbox />,
-  },
   {
     id: "id",
     header: "Id",
