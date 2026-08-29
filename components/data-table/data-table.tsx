@@ -118,6 +118,7 @@ export default function DataTable<T>({
     <div className="group/table relative min-w-0 overflow-x-auto">
       <Table className="table-fixed whitespace-nowrap">
         <colgroup>
+          <col style={{ width: "40px" }} />
           {columns.map((column) => (
             <col
               key={column.id}
