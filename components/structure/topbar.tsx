@@ -1,11 +1,16 @@
+import { ReactNode } from "react";
 import SearchBar from "../search/search";
-import Toolbar from "../toolbar.tsx/toolbar";
 
-export default function TopBar() {
+interface TopBarProps {
+  actions?: ReactNode;
+}
+
+export default function TopBar({ actions }: TopBarProps) {
   return (
     <div className="flex gap-3">
       <SearchBar />
-      <Toolbar />
+      
+      {actions}
     </div>
   );
 }
