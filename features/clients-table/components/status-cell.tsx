@@ -9,6 +9,7 @@ import {
 import { ClientStatus as StatusType } from "../constants/status";
 import ClientStatus from "./client-status";
 import { CLIENT_STATUSES } from "../constants/status";
+import { useState } from "react";
 
 interface StatusCellProps {
   status: StatusType;
@@ -17,10 +18,12 @@ interface StatusCellProps {
 }
 
 export default function StatusCell({ status, onChange }: StatusCellProps) {
+  const [activeStatus, setActiveStatus] = useState<StatusType>(status);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="relative flex items-center min-w-0 w-full h-full">
-        <ClientStatus status={status} />
+        <ClientStatus status={activeStatus} />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="start" className="flex flex-col gap-1">
@@ -31,8 +34,8 @@ export default function StatusCell({ status, onChange }: StatusCellProps) {
             <DropdownMenuItem
               key={nextStatus}
               className="p-0 not-data-[variant=destructive]:focus:**:text-none"
-              onClick={(event) => {
-                event.stopPropagation();
+              onClick={() => {
+                setActiveStatus(nextStatus);
                 onChange(nextStatus);
               }}
             >
