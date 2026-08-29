@@ -18,8 +18,16 @@ import {
 import DataTableResizer from "./data-table-resizer";
 import Cell from "./cell";
 import ColumnActions from "./column-actions";
+import TableCheckbox from "./table-checkbox";
 
-export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
+export default function DataTable<T>({
+  data,
+  columns,
+  getRowId,
+  selectedIds,
+  toggleAll,
+  onToggleRow,
+}: DataTableProps<T>) {
   const [sort, setSort] = useState<SortState>({
     columnId: null,
     direction: null,
@@ -98,6 +106,13 @@ export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
 
     return 0;
   });
+  const rowIds = sortedData.map(getRowId);
+
+  const selectedCount = rowIds.filter((id) => selectedIds[id]).length;
+  const allSelected =
+    rowIds.length > 0 && rowIds.every((id) => selectedIds[id]);
+  const someSelected =
+    selectedCount > 0 && rowIds.some((id) => selectedIds[id]) && !allSelected;
 
   return (
     <div className="group/table relative min-w-0 overflow-x-auto">
@@ -115,6 +130,13 @@ export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
 
         <TableHeader>
           <TableRow>
+            <TableHead className="relative min-w-0 px-0">
+              <TableCheckbox
+                checked={allSelected}
+                indeterminate={someSelected}
+                onSelect={() => toggleAll(rowIds)}
+              />
+            </TableHead>
             {columns.map((column) => (
               <TableHead key={column.id} className="relative min-w-0">
                 <div className="flex items-center justify-between gap-3 w-full">
@@ -141,7 +163,6 @@ export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
                     }
                     onSort={(direction) => {
                       setSort({ columnId: column.id, direction });
-                      console.log(`[sort]:`, sort);
                     }}
                   />
                 </div>
@@ -155,45 +176,56 @@ export default function DataTable<T>({ data, columns }: DataTableProps<T>) {
         </TableHeader>
 
         <TableBody>
-          {sortedData.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {columns.map((column) => {
-                const rawValue = column.accessorKey
-                  ? row[column.accessorKey]
-                  : null;
+          {sortedData.map((row) => {
+            const rowId = getRowId(row);
 
-                const isEmpty = rawValue == null;
+            return (
+              <TableRow key={rowId}>
+                <TableCell className="min-w-0 p-0">
+                  <TableCheckbox
+                    checked={selectedIds[rowId] === true}
+                    onSelect={() => onToggleRow(rowId)}
+                  />
+                </TableCell>
 
-                const isCustom = !!column.render;
+                {columns.map((column) => {
+                  const rawValue = column.accessorKey
+                    ? row[column.accessorKey]
+                    : null;
 
-                const value = column.render
-                  ? column.render(row)
-                  : isEmpty
-                    ? "null"
-                    : String(rawValue);
+                  const isEmpty = rawValue == null;
 
-                return (
-                  <TableCell key={column.id} className="min-w-0 p-0">
-                    <Cell
-                      isEmpty={isEmpty}
-                      copyable={!isCustom && column.copyable}
-                      copyValue={
-                        !isCustom && !isEmpty ? String(rawValue) : undefined
-                      }
-                    >
-                      {isCustom ? (
-                        value
-                      ) : (
-                        <span className="block min-w-0 w-full truncate px-3">
-                          {value}
-                        </span>
-                      )}
-                    </Cell>
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          ))}
+                  const isCustom = !!column.render;
+
+                  const value = column.render
+                    ? column.render(row)
+                    : isEmpty
+                      ? "null"
+                      : String(rawValue);
+
+                  return (
+                    <TableCell key={column.id} className="min-w-0 p-0">
+                      <Cell
+                        isEmpty={isEmpty}
+                        copyable={!isCustom && column.copyable}
+                        copyValue={
+                          !isCustom && !isEmpty ? String(rawValue) : undefined
+                        }
+                      >
+                        {isCustom ? (
+                          value
+                        ) : (
+                          <span className="block min-w-0 w-full truncate px-3">
+                            {value}
+                          </span>
+                        )}
+                      </Cell>
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>
