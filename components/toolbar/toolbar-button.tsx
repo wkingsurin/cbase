@@ -3,7 +3,7 @@ import { LucideIcon } from "lucide-react";
 interface ToolbarProps {
   icon: LucideIcon;
   disabled?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function ToolbarButton({
