@@ -14,3 +14,12 @@ export interface IClient {
   createdAt: string | null;
   updatedAt: string | null;
 }
+
+export interface ImportClient {
+  fullname: string;
+  tg: string;
+  vk: string;
+  site: string;
+  phone: string;
+  comment: string;
+}

@@ -4,6 +4,8 @@ import ToolBar from "@/components/toolbar/toolbar";
 import ToolbarButton from "@/components/toolbar/toolbar-button";
 import { Archive, DatabaseMinus } from "lucide-react";
 import { useClientsTableStore } from "../store/store";
+import AddClientDialog from "./add-client-dialog";
+import ImportCSVDialog from "./import-csv-dialog";
 
 export default function ClientsToolbar() {
   const selectedIds = useClientsTableStore((s) => s.selectedIds);
@@ -26,6 +28,8 @@ export default function ClientsToolbar() {
         disabled={!hasSelection}
         onClick={() => removeRows(idsArray)}
       />
+      <ImportCSVDialog />
+      <AddClientDialog />
     </ToolBar>
   );
 }

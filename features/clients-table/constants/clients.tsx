@@ -1,5 +1,5 @@
 import { DataTableColumn } from "@/components/data-table/types";
-import { IClient } from "../types";
+import { IClient, ImportClient } from "../types";
 import StatusCell from "../components/status-cell";
 import TagCell from "../components/tag-cell";
 
@@ -214,5 +214,61 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     maxWidth: 300,
     copyable: true,
     filter: { type: "text" },
+  },
+];
+
+export const IMPORT_CLIENT_CLOUMNS: DataTableColumn<ImportClient>[] = [
+  {
+    id: "fullname",
+    header: "Fullname",
+    accessorKey: "fullname",
+
+    initialWidth: 160,
+    minWidth: 160,
+    maxWidth: 300,
+  },
+  {
+    id: "tg",
+    header: "Tg",
+    accessorKey: "tg",
+
+    initialWidth: 140,
+    minWidth: 140,
+    maxWidth: 300,
+  },
+  {
+    id: "vk",
+    header: "Vk",
+    accessorKey: "vk",
+
+    initialWidth: 120,
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  {
+    id: "site",
+    header: "Site",
+    accessorKey: "site",
+
+    initialWidth: 120,
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  {
+    id: "phone",
+    header: "Phone",
+    accessorKey: "phone",
+
+    initialWidth: 140,
+    minWidth: 140,
+    maxWidth: 300,
+  },
+  {
+    id: "comment",
+    header: "Comment",
+    accessorKey: "comment",
+    initialWidth: 220,
+    minWidth: 150,
+    maxWidth: 300,
   },
 ];
