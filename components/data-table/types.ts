@@ -27,6 +27,7 @@ export interface DataTableColumn<T> {
   render?: (row: T) => ReactNode;
 
   copyable?: boolean;
+  editable?: boolean;
 
   filter?: DataTableFilter;
 }
@@ -34,7 +35,7 @@ export interface DataTableColumn<T> {
 export interface DataTableProps<T> {
   data: T[];
   columns: DataTableColumn<T>[];
-  
+
   getRowId: (row: T) => string;
   selectedIds: Record<string, true>;
   onToggleRow: (id: string) => void;

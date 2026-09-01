@@ -89,6 +89,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 160,
     maxWidth: 300,
     copyable: true,
+    editable: true,
     filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
@@ -99,6 +100,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 140,
     maxWidth: 300,
     copyable: true,
+    editable: true,
     filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
@@ -109,6 +111,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 120,
     maxWidth: 300,
     copyable: true,
+    editable: true,
     filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
@@ -119,6 +122,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 120,
     maxWidth: 300,
     copyable: true,
+    editable: true,
     filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
@@ -129,6 +133,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 140,
     maxWidth: 300,
     copyable: true,
+    editable: true,
     filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {
@@ -139,6 +144,7 @@ export const CLIENT_COLUMNS: DataTableColumn<IClient>[] = [
     minWidth: 150,
     maxWidth: 300,
     copyable: true,
+    editable: true,
     filter: { type: "checkbox", options: [{ label: "null", value: "null" }] },
   },
   {

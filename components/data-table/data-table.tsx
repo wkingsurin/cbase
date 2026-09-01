@@ -234,6 +234,9 @@ export default function DataTable<T>({
                         copyValue={
                           !isCustom && !isEmpty ? String(rawValue) : undefined
                         }
+                        editable={column.editable}
+                        editValue={!isEmpty ? String(rawValue) : undefined}
+                        onSave={() => console.log(`Saved:`, String(rawValue))}
                       >
                         {isCustom ? (
                           value

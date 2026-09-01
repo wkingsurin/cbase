@@ -1,5 +1,5 @@
-import { SquarePen } from "lucide-react";
 import { ReactNode } from "react";
+import EditCell from "./edit-cell";
 
 interface CellProps {
   children: ReactNode;
@@ -8,6 +8,11 @@ interface CellProps {
 
   copyable?: boolean;
   copyValue?: string;
+
+  editable?: boolean;
+  editValue?: string;
+
+  onSave?: (value: string) => void;
 }
 
 export default function Cell({
@@ -15,6 +20,9 @@ export default function Cell({
   isEmpty = false,
   copyable = false,
   copyValue,
+  editable = false,
+  editValue,
+  onSave,
 }: CellProps) {
   const handleCopy = async () => {
     if (!copyValue) return;
@@ -34,6 +42,9 @@ export default function Cell({
       onClick={copyable ? handleCopy : undefined}
     >
       {children}
+      {editable && onSave ? (
+        <EditCell initialValue={editValue ?? ""} onSave={onSave} />
+      ) : null}
     </div>
   );
 }
