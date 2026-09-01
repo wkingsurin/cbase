@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -19,6 +19,7 @@ import DataTableResizer from "./data-table-resizer";
 import Cell from "./cell";
 import ColumnActions from "./column-actions";
 import TableCheckbox from "./table-checkbox";
+import CellValue from "./cell-value";
 
 export default function DataTable<T>({
   data,
@@ -28,6 +29,8 @@ export default function DataTable<T>({
   toggleAll,
   onToggleRow,
 }: DataTableProps<T>) {
+  const [pressedCtrl, setPressedCtrl] = useState<boolean>(false);
+
   const [sort, setSort] = useState<SortState>({
     columnId: null,
     direction: null,
@@ -113,6 +116,25 @@ export default function DataTable<T>({
     rowIds.length > 0 && rowIds.every((id) => selectedIds[id]);
   const someSelected =
     selectedCount > 0 && rowIds.some((id) => selectedIds[id]) && !allSelected;
+
+  const onDownCtrl = (event: KeyboardEvent) => {
+    if (event.ctrlKey) {
+      setPressedCtrl(true);
+    }
+  };
+  const onUpCtrl = (event: KeyboardEvent) => {
+    setPressedCtrl(false);
+  };
+
+  useEffect(() => {
+    window.document.addEventListener("keydown", onDownCtrl);
+    window.document.addEventListener("keyup", onUpCtrl);
+
+    return () => {
+      window.document.removeEventListener("keydown", onDownCtrl);
+      window.document.removeEventListener("keyup", onUpCtrl);
+    };
+  }, []);
 
   return (
     <div className="group/table relative min-w-0 overflow-x-auto">
@@ -216,9 +238,10 @@ export default function DataTable<T>({
                         {isCustom ? (
                           value
                         ) : (
-                          <span className="block min-w-0 w-full truncate px-3">
-                            {value}
-                          </span>
+                          <CellValue
+                            value={value}
+                            visible={!isEmpty && pressedCtrl}
+                          />
                         )}
                       </Cell>
                     </TableCell>
